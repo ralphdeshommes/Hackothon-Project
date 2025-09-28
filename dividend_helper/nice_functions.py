@@ -1,5 +1,6 @@
 import yfinance as yf
 from termcolor import cprint
+import tkinter as tk
 
 
 
@@ -43,6 +44,8 @@ def monthly_data_checker():
 
 
 def dividend_details(symbol):
+    
+    print(symbol)
     ticker = yf.Ticker(symbol)
     
        # Check if dividends exist
@@ -108,6 +111,10 @@ def div_and_apy_compare(money, dividend):
 
 def ticker_info(symbol):
     yf.Ticker(symbol)
+
+
+
+
 
 if __name__ == "__main__": 
     stocks = ["AAPL", "SPY", "TSLA", "MSFT", "AMZN",] 
