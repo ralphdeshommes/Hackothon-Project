@@ -1,5 +1,6 @@
 import yfinance as yf
 from termcolor import cprint
+import tkinter as tk
 
 
 
@@ -42,7 +43,9 @@ def monthly_data_checker():
     print(data.head())
 
 
-def dividend_details(symbol):
+def dividend_details(entry, listbox):
+    symbol = entry
+    print(symbol)
     ticker = yf.Ticker(symbol)
     
        # Check if dividends exist
@@ -70,6 +73,12 @@ def dividend_details(symbol):
         print(f"Has Divdends: yes ")
         print(f"Dividend Yield: {div_yield}% ")
         print(f"Dividend: ${dividend:.2f}")
+        listbox.insert(tk.END, f"Symbol: {symbol}")
+        listbox.insert(tk.END, f"Average Price: {avg_price}")
+        listbox.insert(tk.END, f"Volume: {volume}")
+        listbox.insert(tk.END, f"Dividend Yield: {div_yield}% ")
+        listbox.insert(tk.END, f"Dividend: ${dividend:.2f}" )
+        listbox.insert(tk.END, "Had Dividens: YES")
 
     
 

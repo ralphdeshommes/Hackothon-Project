@@ -1,4 +1,5 @@
 import tkinter as tk
+import nice_functions
 
 def open_dividend_interface():
     query = entry.get().strip() # get user input and remove extra spaces
@@ -52,6 +53,11 @@ news_button.pack(side=tk.LEFT, padx=5)
 
 calc_button = tk.Button(button_frame, text="Calculate", font=("times new roman", 12), command=open_calculate_page)
 calc_button.pack(side=tk.LEFT, padx=5)
+
+
+
+button = tk.Button(search_frame, text="Dividend", font=("times new roman", 12),command=lambda: nice_functions.dividend_details(entry.get(), listbox))
+button.pack(side=tk.LEFT, padx=5) # creates seach button, does not do anything yet
 
 
 # --- Listbox ---
