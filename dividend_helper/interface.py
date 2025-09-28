@@ -49,7 +49,7 @@ dividend_button.pack(side=tk.LEFT, padx=5)
 button_frame = tk.Frame(root)
 button_frame.pack(pady=5)
 
-news_button = tk.Button(button_frame, text="News", font=("times new roman", 12),command=lambda: nice_functions.dividend_details(entry.get(), listbox)
+news_button = tk.Button(button_frame, text="News", font=("times new roman", 12))
 news_button.pack(side=tk.LEFT, padx=5)
 
 calc_button = tk.Button(button_frame, text="Calculate", font=("times new roman", 12), command=open_calculate_page)
