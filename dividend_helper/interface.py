@@ -42,18 +42,20 @@ search_frame.pack(pady=10)
 entry = tk.Entry(search_frame, width=30, font=("times new roman", 12))
 entry.pack(side=tk.LEFT, padx=5)
 
-dividend_button = tk.Button(search_frame, text="Dividend", font=("times new roman", 12), command=open_dividend_interface)
+dividend_button = tk.Button(search_frame, text="Dividend", font=("times new roman", 12), command=lambda:nice_functions.dividend_details(entry.get(), listbox))
 dividend_button.pack(side=tk.LEFT, padx=5)
 
 # --- Second row: News + Calculate ---
 button_frame = tk.Frame(root)
 button_frame.pack(pady=5)
 
-news_button = tk.Button(button_frame, text="News", font=("times new roman", 12))
+news_button = tk.Button(button_frame, text="News", font=("times new roman", 12), command=lambda: nice_functions.stock_news(entry.get(), listbox))
 news_button.pack(side=tk.LEFT, padx=5)
 
 calc_button = tk.Button(button_frame, text="Calculate", font=("times new roman", 12), command=open_calculate_page)
 calc_button.pack(side=tk.LEFT, padx=5)
+
+
 
 
 # --- Listbox ---
