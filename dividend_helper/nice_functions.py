@@ -43,8 +43,8 @@ def monthly_data_checker():
     print(data.head())
 
 
-def dividend_details(symbol):
-    
+def dividend_details(entry, listbox):
+    symbol = entry
     print(symbol)
     ticker = yf.Ticker(symbol)
     
@@ -73,6 +73,12 @@ def dividend_details(symbol):
         print(f"Has Divdends: yes ")
         print(f"Dividend Yield: {div_yield}% ")
         print(f"Dividend: ${dividend:.2f}")
+        listbox.insert(tk.END, f"Symbol: {symbol}")
+        listbox.insert(tk.END, f"Average Price: {avg_price}")
+        listbox.insert(tk.END, f"Volume: {volume}")
+        listbox.insert(tk.END, f"Dividend Yield: {div_yield}% ")
+        listbox.insert(tk.END, f"Dividend: ${dividend:.2f}" )
+        listbox.insert(tk.END, "Had Dividens: YES")
 
     
 
@@ -111,10 +117,6 @@ def div_and_apy_compare(money, dividend):
 
 def ticker_info(symbol):
     yf.Ticker(symbol)
-
-
-
-
 
 if __name__ == "__main__": 
     stocks = ["AAPL", "SPY", "TSLA", "MSFT", "AMZN",] 
