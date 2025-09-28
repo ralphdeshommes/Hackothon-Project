@@ -20,15 +20,82 @@ def open_calculate_page():
     # new window for Calculate
     new_win = tk.Toplevel(root)
     new_win.title("Calculate Page")
-    new_win.geometry("300x200")
+    new_win.geometry("360x260")
 
-    # Entry box (holder bar)
-    calc_entry = tk.Entry(new_win, width=25, font=("times new roman", 12))
-    calc_entry.pack(pady=20)
+    # Instruction
+    instr = tk.Label(new_win, text="Enter values to compare 4% APY vs annual dividend", font=("times new roman", 10))
+    instr.pack(pady=(10, 5))
 
-    # Enter button (does nothing yet)
-    enter_button = tk.Button(new_win, text="Enter", font=("times new roman", 12))
-    enter_button.pack(pady=5)
+    # Investment amount
+    invest_frame = tk.Frame(new_win)
+    invest_frame.pack(pady=(5, 2))
+    invest_label = tk.Label(invest_frame, text="Investment amount ($):", font=("times new roman", 11))
+    invest_label.pack(side=tk.LEFT)
+    invest_entry = tk.Entry(invest_frame, width=15, font=("times new roman", 11))
+    invest_entry.pack(side=tk.LEFT, padx=6)
+
+    # Annual dividend amount
+    div_frame = tk.Frame(new_win)
+    div_frame.pack(pady=(5, 8))
+    div_label = tk.Label(div_frame, text="Annual dividend ($):", font=("times new roman", 11))
+    div_label.pack(side=tk.LEFT)
+    div_entry = tk.Entry(div_frame, width=15, font=("times new roman", 11))
+    div_entry.pack(side=tk.LEFT, padx=6)
+
+    # Result area
+    result_label = tk.Label(new_win, text="", font=("times new roman", 11), fg="blue")
+    result_label.pack(pady=(6, 6))
+
+    error_label = tk.Label(new_win, text="", font=("times new roman", 10), fg="red")
+    error_label.pack()
+
+    def do_calculate(event=None):
+        error_label.config(text="")
+        result_label.config(text="")
+
+        # parse inputs
+        try:
+            invest = float(invest_entry.get().strip())
+        except Exception:
+            error_label.config(text="Invalid investment amount. Enter a number like 10000")
+            return
+
+        try:
+            annual_div = float(div_entry.get().strip())
+        except Exception:
+            error_label.config(text="Invalid dividend amount. Enter a number like 450")
+            return
+
+        # compute 4% APY on the investment and compare
+        apy_amount = invest * 0.04
+        diff = annual_div - apy_amount
+
+        result_text = (f"4% APY on ${invest:,.2f} = ${apy_amount:,.2f}\n"
+                       f"Annual dividend = ${annual_div:,.2f}\n"
+                       f"Difference (dividend - APY) = ${diff:,.2f}")
+        result_label.config(text=result_text)
+
+        # Also push to main listbox for history/visibility
+        listbox.insert(tk.END, "CALCULATE: " + f"Invest ${invest:,.2f}, APY ${apy_amount:,.2f}, Div ${annual_div:,.2f}, Diff ${diff:,.2f}")
+
+        # Optionally call helper function to keep existing behavior (prints to console)
+        try:
+            nice_functions.div_and_apy_compare(invest, annual_div)
+        except Exception:
+            # ignore errors from helper; GUI result is primary
+            pass
+
+    # Buttons
+    btn_frame = tk.Frame(new_win)
+    btn_frame.pack(pady=(6, 10))
+    calc_btn = tk.Button(btn_frame, text="Compare", font=("times new roman", 12), command=do_calculate)
+    calc_btn.pack(side=tk.LEFT, padx=8)
+    close_btn = tk.Button(btn_frame, text="Close", font=("times new roman", 12), command=new_win.destroy)
+    close_btn.pack(side=tk.LEFT, padx=8)
+
+    # Bind Enter on either entry to run the calculation
+    invest_entry.bind("<Return>", do_calculate)
+    div_entry.bind("<Return>", do_calculate)
 
 root = tk.Tk()
 root.title("Search Bar")
