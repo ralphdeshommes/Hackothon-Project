@@ -6,8 +6,7 @@ import tkinter as tk
 
 
 
-
-def  new_checker():
+def  news_checker(stocks):
     # for the news checking function I want to find use a ai to check if the new for the stock is good or not that will help me see if it going to be bad
     # a ticker is a stock  symbol
     # uses the stocks array to check all the news information for each individual stock
@@ -35,6 +34,29 @@ def  new_checker():
         
 
 
+def stock_news(stock, listbox):
+    news = (yf.Ticker(stock).news)
+    listbox.insert(tk.END,f'CURRNET NEWS ON STOCK {stock}')
+    for article in news:
+            try:
+                title = article["content"]["title"]
+                summary = article["content"]["summary"]
+                link = article["content"]["clickThroughUrl"]["url"]
+            
+            # type erro is for when there is no link 
+            except TypeError as e:
+             
+                # if there is an error print the error and the article that caused the error
+                link = "N/A"
+            #color coated the diffrent type of stocks and the terminal
+            listbox.insert(tk.END, f"{stock}'s News ({title})")
+            listbox.insert(tk.END,f"Summary: {summary}")
+            listbox.insert(tk.END,f"Link: {link}")
+            listbox.insert(tk.END,"-"*20)
+           
+        
+    
+
 
 # for this, this is for
 def monthly_data_checker():
@@ -44,14 +66,15 @@ def monthly_data_checker():
 
 
 def dividend_details(entry, listbox):
+    listbox.delete(0,tk.END)
     symbol = entry
-    print(symbol)
     ticker = yf.Ticker(symbol)
     
        # Check if dividends exist
     dividends = ticker.dividends
     if dividends.empty:
-        print("There are no Dividend for this stock")
+        print("There are no Dividend for this stockfds")
+        listbox.insert(tk.END, "TICKER NOT VALID PLEASE TRY AGAIN")
 
    
     else:
@@ -67,12 +90,7 @@ def dividend_details(entry, listbox):
         avg_price = info.get("regularMarketPrice", None)
         dividend = avg_price * (div_yield / 100)
 
-        print(f"Symbol: {symbol}")
-        print(f"Average Price: {avg_price}")
-        print(f"Volume: {volume}")
-        print(f"Has Divdends: yes ")
-        print(f"Dividend Yield: {div_yield}% ")
-        print(f"Dividend: ${dividend:.2f}")
+   
         listbox.insert(tk.END, f"Symbol: {symbol}")
         listbox.insert(tk.END, f"Average Price: {avg_price}")
         listbox.insert(tk.END, f"Volume: {volume}")
@@ -119,7 +137,7 @@ def ticker_info(symbol):
     yf.Ticker(symbol)
 
 if __name__ == "__main__": 
-    stocks = ["AAPL", "SPY", "TSLA", "MSFT", "AMZN",] 
+    #stocks = ["AAPL", "SPY", "TSLA", "MSFT", "AMZN",] 
     #new_checker()
     #monthly_data_checker()
     #rsi_indicator("AAPL")
