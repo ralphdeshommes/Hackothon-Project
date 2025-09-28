@@ -6,8 +6,7 @@ import tkinter as tk
 
 
 
-
-def  new_checker(stocks):
+def  news_checker(stocks):
     # for the news checking function I want to find use a ai to check if the new for the stock is good or not that will help me see if it going to be bad
     # a ticker is a stock  symbol
     # uses the stocks array to check all the news information for each individual stock
@@ -34,6 +33,29 @@ def  new_checker(stocks):
             cprint(f"{link}", "light_green", "on_white")
         
 
+
+def stock_news(stock, listbox):
+    news = (yf.Ticker(stock).news)
+    listbox.insert(tk.END,f'CURRNET NEWS ON STOCK {stock}')
+    for article in news:
+            try:
+                title = article["content"]["title"]
+                summary = article["content"]["summary"]
+                link = article["content"]["clickThroughUrl"]["url"]
+            
+            # type erro is for when there is no link 
+            except TypeError as e:
+             
+                # if there is an error print the error and the article that caused the error
+                link = "N/A"
+            #color coated the diffrent type of stocks and the terminal
+            listbox.insert(tk.END, f"{stock}'s News ({title})")
+            listbox.insert(tk.END,f"Summary: {summary}")
+            listbox.insert(tk.END,f"Link: {link}")
+            listbox.insert(tk.END,"-"*20)
+           
+        
+    
 
 
 # for this, this is for
