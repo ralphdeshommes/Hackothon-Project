@@ -4,6 +4,7 @@ import nice_functions
 def open_dividend_interface():
     query = entry.get().strip() # get user input and remove extra spaces
     if not query: # if input is empty
+        
         return
     
     # new window
