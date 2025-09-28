@@ -43,37 +43,33 @@ def monthly_data_checker():
 
 
 def dividend_details(symbol):
-    ticker = yf.Ticker("AAPL")
+    ticker = yf.Ticker(symbol)
+    
        # Check if dividends exist
     dividends = ticker.dividends
     if dividends.empty:
-        return {
-            "symbol": symbol,
-            "has_dividends": False,
-            "message": "This stock does not currently pay dividends."
-        }
+        print("There are no Dividend for this stock")
 
-    # Get most recent dividend paid
-    last_div = dividends.iloc[-1]
+   
+    else:
+        # Try to get forward dividend yield & ex-dividend date from info
+        info = ticker.info
+        
+        #print(info)
 
-    # Try to get forward dividend yield & ex-dividend date from info
-    info = ticker.info
-    forward_yield = info.get("dividendYield", None)
-    ex_div_date = info.get("exDividendDate", None)  # timestamp (seconds)
+        forward_yield = info.get("dividendYield", None)
+        ex_div_date = info.get("exDividendDate", None)  # timestamp (seconds)
+        div_yield = info.get("dividendYield",None)
+        volume = info.get("volume",None)
+        avg_price = info.get("regularMarketPrice", None)
+        dividend = avg_price * (div_yield / 100)
 
-    return {
-        "symbol": symbol,
-        "has_dividends": True,
-        "last_dividend": float(last_div),
-        "forward_yield": f"{forward_yield * 100:.2f}%" if forward_yield else "N/A",
-        "next_ex_dividend_date": ex_div_date if ex_div_date else "N/A"
-    }
-
-    print(f"Symbol: {symbol}")
-    print(f"Has Divdends: No ")
-    print(f"Latest Divdend: ")
-    print(f"forward yield")
-    print(f"")
+        print(f"Symbol: {symbol}")
+        print(f"Average Price: {avg_price}")
+        print(f"Volume: {volume}")
+        print(f"Has Divdends: yes ")
+        print(f"Dividend Yield: {div_yield}% ")
+        print(f"Dividend: ${dividend:.2f}")
 
     
 
@@ -103,12 +99,23 @@ def quarterly_earnings_checker():
     pass
 
 
+def div_and_apy_compare(money, dividend):
+    apy = money *  .04
+    print(f"apy = {apy}")
+    print(f"dividend = {dividend}")
+
+
+
+def ticker_info(symbol):
+    yf.Ticker(symbol)
+
 if __name__ == "__main__": 
     stocks = ["AAPL", "SPY", "TSLA", "MSFT", "AMZN",] 
     #new_checker()
     #monthly_data_checker()
     #rsi_indicator("AAPL")
-    print(dividend_details("AAPL"))
+    #print(dividend_details("AAPL"))
+    div_and_apy_compare(100000, 456)
    
 
 
