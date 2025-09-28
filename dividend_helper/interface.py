@@ -1,37 +1,40 @@
-from tkinter import *
-import math
-import yfinance
+import tkinter as tk
 
-
-
-
-
-
-def main():
-    window = Tk()
-    window.geometry("300x300")
-    window.title("dividend optimization")
-    title = Label(window, text="Enter Ticker(Symbol) of the stock that you want")
-    title.pack()
-    entry = Entry(window)
-    entry.pack()
-    frame = Frame(window)
-    frame.pack()
-    enter_button = Button(frame, text="Enter", command=details)
-    enter_button.pack(side=LEFT) 
-    dividend_button = Button(frame, text="Dividend Optimization", command=details)
-    dividend_button.pack(side=RIGHT)
-    blank = Label(window, text="this is working")
-    blank.pack()
-
+def open_dividend_interface():
+    query = entry.get().strip() # get user input and remove extra spaces
+    if not query: # if input is empty
+        return
     
+    # new window
+    new_win = tk.Toplevel(root)
+    new_win.title("Dividend Page")
+    new_win.geometry("300x200")
 
-    window.mainloop()
-
-def details():
-    blank.config(text="this is working")
-    
+    # show input txt in new window
+    label = tk.Label(new_win, text=f"Searching for: {query}", font=("times new roman", 12))
+    label.pack(pady=20)
 
 
-if '__main__' == __name__:
-    main()
+root = tk.Tk()
+root.title("Search Bar")
+root.geometry("400x300")
+
+# --- Search Bar (entry +button)) ---
+search_frame = tk.Frame(root)
+search_frame.pack(pady=10) # text field inside frame, adds 10px of vert space
+
+entry = tk.Entry(search_frame, width=30, font=("times new roman", 12))
+entry.pack(side=tk.LEFT, padx=5) #place entry on left side
+
+button = tk.Button(search_frame, text="Dividend", font=("times new roman", 12))
+button.pack(side=tk.LEFT, padx=5) # creates seach button, does not do anything yet
+
+# --- Listbox ---
+listbox = tk.Listbox(root, width=40, height=10, font=("times new roman", 12))
+listbox.pack(pady=10) #box to display results
+
+status = tk.Label(root, text="Type a query above.", font=("times new roman", 10))
+status.pack() # act as status bar
+
+
+root.mainloop()
